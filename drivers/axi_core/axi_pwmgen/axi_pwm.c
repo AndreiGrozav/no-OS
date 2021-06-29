@@ -157,9 +157,10 @@ int32_t pwm_set_period(struct pwm_desc *desc, uint32_t period_ns)
 	tmp = (axi_desc->ref_clock_Hz / NSEC_PER_USEC) * period_ns;
 	period_cnt = DIV_ROUND_UP(tmp, USEC_PER_SEC);
 	axi_desc->ch_period = period_cnt;
+
 	ret = axi_io_write(axi_desc->base_addr,
 			   AXI_PWMGEN_CHX_PERIOD(axi_desc->channel),
-			   desc->enabled ? period_cnt : 0);
+			   period_cnt);
 	if (ret != SUCCESS)
 		return ret;
 
